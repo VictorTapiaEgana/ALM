@@ -1,0 +1,93 @@
+{% extends 'layout/layout.html' %}
+
+{% block content %}
+    <div class="min-h-screen flex items-center justify-center bg-slate-950 px-4 py-12">
+    
+        <div class="w-full max-w-lg">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-blue-600 mb-4 shadow-lg shadow-blue-900/40">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-white tracking-tight">Registro de Personal</h1>
+                <p class="text-slate-400 mt-2">Crea una nueva cuenta de acceso al sistema</p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-lg shadow-xl overflow-hidden">
+                <div class="p-8">
+                    <form method="POST" action="{% url 'register' %}" class="space-y-5">
+                        {% csrf_token %}
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="md:col-span-2">
+                                        <div class="bg-red-900 border border-red-700 text-red-200 px-4 py-3 rounded-md">
+                                            {{ message }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+
+                            <div class="md:col-span-2">
+                                <label for="username" class="block text-sm font-medium text-slate-300 mb-2">Nombre de usuario</label>
+                                <input type="text" name="username" id="username" required
+                                    class="block w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-md text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-slate-600"
+                                    placeholder="Nombre corto (ej: jdoe)">
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label for="email" class="block text-sm font-medium text-slate-300 mb-2">Correo Electrónico</label>
+                                <input type="email" name="email" id="email" required
+                                    class="block w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-md text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-slate-600"
+                                    placeholder="empleado@empresa.com">
+                            </div>
+
+                            <div>
+                                <label for="password" class="block text-sm font-medium text-slate-300 mb-2">Contraseña</label>
+                                <input type="password" name="password" id="password" required
+                                    class="block w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-md text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-slate-600"
+                                    placeholder="••••••••">
+                            </div>
+
+                            <div>
+                                <label for="password_confirm" class="block text-sm font-medium text-slate-300 mb-2">Confirmar Contraseña</label>
+                                <input type="password" name="password_confirm" id="password_confirm" required
+                                    class="block w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-md text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-slate-600"
+                                    placeholder="••••••••">
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label for="tema" class="block text-sm font-medium text-slate-300 mb-2">Interfaz Inicial</label>
+                                <select name="tema" id="tema" 
+                                    class="block w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-md text-white focus:ring-2 focus:ring-blue-500 outline-none appearance-none">
+                                    <option value="dark" selected>Modo Oscuro</option>
+                                    <option value="light">Modo Claro</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="pt-4">
+                            <button type="submit" 
+                                class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-md shadow-lg transition-colors duration-200 transform active:scale-[0.99]">
+                                Finalizar Registro
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="px-8 py-4 bg-slate-800/50 border-t border-slate-800 text-center">
+                    <span class="text-sm text-slate-400">¿Ya tienes una cuenta?</span>
+                    <a href="{% url 'login' %}" class="ml-1 text-sm font-bold text-white hover:text-blue-400 transition-colors">Inicia sesión aquí</a>
+                </div>
+            </div>
+            
+            <p class="text-center mt-6 text-xs text-slate-500 italic">
+                Nota: El registro de nuevos usuarios está sujeto a auditoría por parte del administrador.
+            </p>
+        </div>
+    </div>
+
+{% endblock %}
