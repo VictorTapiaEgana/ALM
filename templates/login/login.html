@@ -41,7 +41,16 @@
                         class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-md shadow-lg transition-colors duration-200">
                         Acceder al Inventario
                     </button>
+
+                    <a href="{% url 'index' %}">
+                        <button type="button" 
+                            class="w-full py-3 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-md shadow-lg transition-colors duration-200 transform active:scale-[0.99] mt-6">
+                            Inicio
+                        </button>
+                    </a>
+
                 </form>
+               
 
                 {% if form.errors %}
                 <div class="mt-6 p-3 bg-red-900/30 border border-red-800 rounded-md">

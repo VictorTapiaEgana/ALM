@@ -1,7 +1,6 @@
 from sqlite3 import IntegrityError
 from django.contrib import messages
 from django.shortcuts import redirect, render
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from bodega.models import Perfil
@@ -32,7 +31,7 @@ def registro_usuario(request):
             nuevo_usuario = User.objects.create_user(username=usuario, password=password)            
             perfil = Perfil.objects.create(usuario=nuevo_usuario)
 
-            messages.success(request, 'Registro exitoso')
+            # messages.success(request, 'Registro exitoso')
             return redirect('dashboard')            
 
         except IntegrityError as e:
@@ -45,6 +44,4 @@ def registro_usuario(request):
             return redirect('register')
         
 
-@login_required
-def dashboard(request):
-    return render(request, 'dashboard/dashboard.html')
+

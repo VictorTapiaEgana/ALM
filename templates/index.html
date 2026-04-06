@@ -1,0 +1,17 @@
+{% extends 'layout/layout.html' %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+
+    <div class="flex justify-center items-center h-screen gap-4">
+        <a href="{% url 'login' %}">
+            <button class="text-white px-4 py-2 rounded bg-blue-500">Login</button>
+        </a>
+
+        <a href="{% url 'register' %}">
+            <button class="text-white px-4 py-2 rounded bg-blue-500">Register</button>
+        </a>
+    </div>
+
+{% endblock %}
