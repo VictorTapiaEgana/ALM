@@ -18,6 +18,7 @@ def registro_usuario(request):
         try:
             usuario = request.POST.get('username')
             password = request.POST.get('password')
+            email = request.POST.get('email')
             password_confirm = request.POST.get('password_confirm')
 
             if not usuario or not password or not password_confirm:
@@ -28,7 +29,7 @@ def registro_usuario(request):
                 messages.error(request, 'Las contraseñas no coinciden')
                 return redirect('register')
 
-            nuevo_usuario = User.objects.create_user(username=usuario, password=password)            
+            nuevo_usuario = User.objects.create_user(username=usuario, password=password, email=email)            
             perfil = Perfil.objects.create(usuario=nuevo_usuario)
 
             # messages.success(request, 'Registro exitoso')

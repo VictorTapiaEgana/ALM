@@ -1,0 +1,137 @@
+{% extends 'layout/layout.html' %}
+
+{% block content %}
+
+        <main class="flex-1 overflow-y-auto p-6 lg:p-10">
+            <form method="POST" enctype="multipart/form-data" class="max-w-5xl mx-auto space-y-8">
+                {% csrf_token %}
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <div class="lg:col-span-1 space-y-6">
+                        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+                            <label class="block text-xs font-bold text-slate-500 uppercase mb-4 tracking-widest">Fotografía de Referencia</label>
+                            <div class="relative group border-2 border-dashed border-slate-800 rounded-xl p-8 hover:border-blue-500 transition-all flex flex-col items-center bg-slate-950/50">
+                                <svg class="w-12 h-12 text-slate-700 mb-2 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <input type="file" name="imagen" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
+                                <span class="text-xs text-slate-600">Subir archivo</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl space-y-4">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest">Identificación</label>
+                            <div>
+                                <label class="text-xs text-slate-400">SKU / Código Único</label>
+                                <input type="text" name="sku" required class="w-full mt-1 px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-1 focus:ring-blue-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="text-xs text-slate-400">Unidad de Medida</label>
+                                <select name="unidad_medida" class="w-full mt-1 px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-1 focus:ring-blue-500 outline-none">
+                                    {% for um in unidades %}
+                                        <option value="{{ um.id }}">{{ um.nombre }} ({{ um.abreviatura }})</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-slate-900 border border-slate-800 p-8 rounded-xl shadow-lg">
+                            <h3 class="text-white font-bold mb-6 flex items-center">
+                                <span class="w-2 h-6 bg-blue-600 rounded-full mr-3"></span> Información del Producto
+                            </h3>
+                            <div class="grid grid-cols-1 gap-6">
+                                <div>
+                                    <label class="text-xs font-bold text-slate-500 uppercase">Nombre Completo</label>
+                                    <input type="text" name="nombre" required class="w-full mt-2 px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Ej: Motor Trifásico 5HP">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="text-xs text-slate-400">Categoría</label>
+                                <select name="categoria" class="w-full mt-1 px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-1 focus:ring-blue-500 outline-none">
+                                    {% for cat in categorias %}
+                                        <option value="{{ cat.id }}">{{ cat.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                                <div class="p-4 bg-slate-950 rounded-lg border border-slate-800">
+                                    <label class="text-xs font-bold text-emerald-500 uppercase">Precio Costo ($)</label>
+                                    <input type="number" step="0.01" name="precio_costo" required class="w-full mt-2 bg-transparent text-2xl font-mono text-white outline-none" placeholder="0.00">
+                                </div>
+                                <div class="p-4 bg-slate-950 rounded-lg border border-slate-800">
+                                    <label class="text-xs font-bold text-blue-500 uppercase">Precio Venta ($)</label>
+                                    <input type="number" step="0.01" name="precio_venta" required class="w-full mt-2 bg-transparent text-2xl font-mono text-white outline-none" placeholder="0.00">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900 border border-slate-800 p-8 rounded-xl">
+                            <h3 class="text-white font-bold mb-6 flex items-center">
+                                <span class="w-2 h-6 bg-amber-600 rounded-full mr-3"></span> Logística y Dimensiones
+                            </h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div class="space-y-2">
+                                    <label class="text-xs text-slate-500 uppercase font-bold">Peso (kg)</label>
+                                    <input type="number" step="0.01" name="peso" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white outline-none focus:border-amber-500">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs text-slate-500 uppercase font-bold">Alto (cm)</label>
+                                    <input type="number" step="0.01" name="alto" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white outline-none focus:border-amber-500">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs text-slate-500 uppercase font-bold">Ancho (cm)</label>
+                                    <input type="number" step="0.01" name="ancho" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white outline-none focus:border-amber-500">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs text-slate-500 uppercase font-bold">Largo (cm)</label>
+                                    <input type="number" step="0.01" name="largo" class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white outline-none focus:border-amber-500">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900 border border-slate-800 p-8 rounded-xl">
+                            <h3 class="text-white font-bold mb-6 flex items-center">
+                                <span class="w-2 h-6 bg-red-600 rounded-full mr-3"></span> Stock y Ubicación
+                            </h3>
+
+                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-400 mb-2">Stock Inicial</label>
+                                        <input type="number" name="cantidad" required min="0"
+                                            class="block w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
+                                            placeholder="0">
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-400 mb-2">Stock Mínimo</label>
+                                        <input type="number" name="stock_minimo" required min="1"
+                                            class="block w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-red-500 outline-none transition-all"
+                                            placeholder="5">
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-slate-400 mb-2">Ubicación Pasillo</label>
+                                        <input type="text" name="ubicacion" 
+                                            class="block w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                            placeholder="A-12">
+                                    </div>
+                                </div>
+                        </div>
+
+                        <div class="flex justify-end gap-4 pt-4">
+                            <a href="{% url 'bodega:dashboard' %}" class="px-6 py-3 text-slate-400 hover:text-white transition-colors">Cancelar</a>
+
+                            <button type="submit" class="px-10 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-lg shadow-blue-900/40 transform active:scale-95 transition-all">
+                                Guardar en Inventario
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+   
+    
+{% endblock %}

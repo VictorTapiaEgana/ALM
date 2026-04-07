@@ -10,7 +10,7 @@ urlpatterns = [
     # path('register/', auth_views.LoginView.as_view(template_name='login/register.html'), name='register'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     # URLs de la aplicación
-    path('', include('bodega.urls')),    
+    path('', include('bodega.urls', namespace='bodega')),    
 
     
 ]

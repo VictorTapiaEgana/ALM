@@ -6,4 +6,8 @@ def index(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'dashboard/dashboard.html')
+    
+    context = {
+        'title': 'Dashboard'
+    }
+    return render(request, 'dashboard/dashboard.html', context)
