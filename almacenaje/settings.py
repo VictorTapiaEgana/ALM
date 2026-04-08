@@ -114,3 +114,5 @@ STATIC_URL = 'static/'
 LOGIN_URL = 'login'               
 LOGIN_REDIRECT_URL = 'bodega:dashboard'  
 LOGOUT_REDIRECT_URL = 'login'     
+
+AUTH_USER_MODEL = 'bodega.Usuario'

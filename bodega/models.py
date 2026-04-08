@@ -2,8 +2,33 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
+from django.contrib.auth.base_user import BaseUserManager
+
+class UsuarioManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('El email es obligatorio')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(email, password, **extra_fields)
+
+class Usuario(AbstractUser):
+    email = models.EmailField(unique=True) 
+    
+    USERNAME_FIELD = 'email'             
+    REQUIRED_FIELDS = ['username']  
+
+    objects = UsuarioManager()
+
 
 class Perfil(models.Model):
     MODO_TEMA = [
@@ -11,7 +36,7 @@ class Perfil(models.Model):
         ('light', 'Claro'),
     ]
     
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE)
     tema_preferido = models.CharField(max_length=10, choices=MODO_TEMA, default='dark')
     avatar = models.ImageField(upload_to='perfiles/', null=True, blank=True)
 
